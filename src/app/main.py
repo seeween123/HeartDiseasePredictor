@@ -26,6 +26,7 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+
 # === HEALTH CHECK ENDPOINT ===
 # CRITICAL: Required for AWS Application Load Balancer health checks
 @app.get("/health")
@@ -35,12 +36,13 @@ def root():
     """
     return {"status": "ok"}
 
+
 # === REQUEST DATA SCHEMA ===
 # Pydantic model for automatic validation and API documentation
 class PatientData(BaseModel):
     """
     Patient data schema for heart disease prediction.
-    
+
     This schema defines the exact features required for heart disease prediction.
     All features match the original dataset structure for consistency.
     """
@@ -59,6 +61,7 @@ class PatientData(BaseModel):
     ca: float
     thal: float
 
+
 # === MAIN PREDICTION API ENDPOINT ===
 @app.post("/predict")
 def get_prediction(data: PatientData):
@@ -69,7 +72,7 @@ def get_prediction(data: PatientData):
     1. Receives validated patient data via Pydantic model
     2. Calls the inference pipeline to transform features and predict
     3. Returns heart disease prediction in JSON format
-    
+
     Expected Response:
     - {"prediction": "Likely to have heart disease"} or {"prediction": "Not likely to have heart disease"}
     - {"error": "error_message"} if prediction fails
@@ -83,7 +86,7 @@ def get_prediction(data: PatientData):
         return {"error": str(e)}
 
 
-# =================================================== # 
+# =================================================== #
 
 
 # === GRADIO WEB INTERFACE ===
@@ -92,13 +95,13 @@ def gradio_interface(
 ):
     """
     Gradio interface function that processes form inputs and returns prediction.
-    
+
     This function:
     1. Takes individual form inputs from Gradio UI
     2. Constructs the data dictionary matching the API schema
     3. Calls the same inference pipeline used by the API
     4. Returns user-friendly prediction string
-    
+
     """
     # Construct data dictionary matching PatientData schema
     data = {
@@ -114,12 +117,13 @@ def gradio_interface(
         "oldpeak": oldpeak,
         "slope": slope,
         "ca": ca,
-        "thal": thal
+        "thal": thal,
     }
-    
+
     # Call same inference pipeline as API endpoint
     result = predict(data)
     return str(result)  # Return as string for Gradio display
+
 
 # === GRADIO UI CONFIGURATION ===
 # Build comprehensive Gradio interface with all patient features
@@ -152,16 +156,16 @@ demo = gr.Interface(
     💡 **Tip**: Older patients with higher cholesterol levels and certain chest pain types 
     tend to have a higher risk of heart disease.
     """,
-       #theme=gr.themes.Soft()  # Professional appearance
+    # theme=gr.themes.Soft()  # Professional appearance
 )
 
 # === MOUNT GRADIO UI INTO FASTAPI ===
 # This creates the /ui endpoint that serves the Gradio interface
 # IMPORTANT: This must be the final line to properly integrate Gradio with FastAPI
 app = gr.mount_gradio_app(
-    app,           # FastAPI application instance
-    demo,          # Gradio interface
-    path="/ui"     # URL path where Gradio will be accessible
+    app,  # FastAPI application instance
+    demo,  # Gradio interface
+    path="/ui",  # URL path where Gradio will be accessible
 )
 
 if __name__ == "__main__":

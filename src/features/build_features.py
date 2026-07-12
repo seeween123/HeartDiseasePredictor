@@ -1,9 +1,10 @@
 import pandas as pd
 
+
 def _map_binary_series(s: pd.Series) -> pd.Series:
     """
     Apply deterministic binary encoding to 2-category features.
-    
+
     This function implements the core binary encoding logic that converts
     categorical features with exactly 2 values into 0/1 integers. The mappings
     are deterministic and must be consistent between training and serving.
@@ -11,7 +12,6 @@ def _map_binary_series(s: pd.Series) -> pd.Series:
     """
     # Get unique values and remove NaN
     vals = list(pd.Series(s.dropna().unique()).astype(str))
-    valset = set(vals)
 
     # === GENERIC BINARY MAPPING ===
     # For any other 2-category feature, use stable alphabetical ordering
@@ -33,7 +33,7 @@ def build_features(
 
     if target_col not in df:
         raise ValueError(...)
-    
+
     df = df.copy()
 
     # categorical = [
@@ -52,5 +52,5 @@ def build_features(
 
     # One hot encoding for categorical features with > 2 unique values
     df = pd.get_dummies(df, columns=categorical, drop_first=True)
-    
+
     return df

@@ -2,23 +2,23 @@ import os
 from pathlib import Path
 
 import mlflow
-import pandas as pd
 import mlflow.xgboost
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
-        accuracy_score,
-        precision_score,
-        recall_score,
-        f1_score,
-        roc_auc_score,
-        classification_report,
-        )
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    roc_auc_score,
+    classification_report,
+)
 from joblib import dump
 
 DEFAULT_OUT = Path("serving/model/Candidate_Model.json")
 
 THRESHOLD = 0.3
+
 
 def train_model(
     df,
@@ -38,7 +38,7 @@ def train_model(
     y = df[target_col]
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, stratify=y,  random_state=42
+        X, y, test_size=0.2, stratify=y, random_state=42
     )
 
     best_model = XGBClassifier(
@@ -46,7 +46,7 @@ def train_model(
         random_state=42,
         n_jobs=-1,
         eval_metric="logloss",
-        scale_pos_weight=(y_train == 0).sum() / (y_train == 1).sum()
+        scale_pos_weight=(y_train == 0).sum() / (y_train == 1).sum(),
     )
 
     best_model.fit(X_train, y_train)
@@ -80,7 +80,9 @@ def train_model(
         mlflow.log_metric("ROC_AUC", roc_auc)
 
         mlflow.xgboost.log_model(best_model, "candidate_model")
-        mlflow.log_text(classification_report(y_test, y_pred), "classification_report.txt")
+        mlflow.log_text(
+            classification_report(y_test, y_pred), "classification_report.txt"
+        )
 
         # Optional: save the Optuna study as an artifact
         with open("best_params.txt", "w") as f:
@@ -100,8 +102,7 @@ def train_model(
         # Optional raw model
         best_model.save_model("HeartDiseasePredictor.json")
         mlflow.log_artifact(
-            "HeartDiseasePredictor.json",
-            artifact_path="candidate_model"
+            "HeartDiseasePredictor.json", artifact_path="candidate_model"
         )
         os.remove("HeartDiseasePredictor.json")
 
