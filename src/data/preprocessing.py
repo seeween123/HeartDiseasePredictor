@@ -23,6 +23,7 @@ EXPECTED_COLUMNS = [
     "cp_4",
 ]
 
+
 def preprocess_data(
     df: pd.DataFrame,
     target_col: str = "target",
@@ -37,9 +38,7 @@ def preprocess_data(
     df["exang"] = df["exang"].astype(int)
 
     # Categorical columns with > 2 unique values
-    multi_cat_cols = [
-        'ca', 'slope', 'thal', 'restecg', 'cp'
-    ]
+    multi_cat_cols = ["ca", "slope", "thal", "restecg", "cp"]
 
     # One-hot encode
     df = pd.get_dummies(df, columns=multi_cat_cols, drop_first=True)
@@ -51,11 +50,7 @@ def preprocess_data(
     # Clean column names
     # --------------------------------------------------
 
-    df.columns = (
-        df.columns.str.strip()
-        .str.lower()
-        .str.replace(" ", "_")
-    )
+    df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
 
     # --------------------------------------------------
     # Remove duplicates

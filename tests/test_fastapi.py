@@ -3,7 +3,7 @@ import requests
 url = "http://127.0.0.1:8000/predict"
 
 sample_data = {
-    "age": 63, 
+    "age": 63,
     "sex": 1,
     "cp": 1,
     "trestps": 145,

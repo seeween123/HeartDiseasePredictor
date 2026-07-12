@@ -1,9 +1,9 @@
 # test_pipeline_phase1.py
 import os
-import pandas as pd
 
 # Make sure Python can find your src package
 import sys
+
 sys.path.append(os.path.abspath("src"))
 
 from data.make_dataset import load_data
@@ -13,6 +13,7 @@ from features.build_features import build_features
 # === CONFIG ===
 DATA_PATH = r"C:\Users\naras\Work\WILP\MLOPS\Assignment1\HeartDiseasePredictor\src\data\raw\heart_disease.csv"  # adjust to your file path
 TARGET_COL = "target"
+
 
 def main():
     print("=== Testing Phase 1: Load → Preprocess → Build Features ===")
@@ -36,6 +37,7 @@ def main():
     print(df_features.head(3))
 
     print("\n✅ Phase 1 pipeline completed successfully!")
+
 
 if __name__ == "__main__":
     main()
