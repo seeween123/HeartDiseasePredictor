@@ -86,9 +86,10 @@ The workflow includes:
 | Hyperparameter Tuning | Optuna |
 | Experiment Tracking | MLflow |
 | API | FastAPI |
+| CI/CD | GitHub Actions |
 | Testing | Pytest |
 | Containerization | Docker |
-| CI/CD | GitHub Actions |
+| Container Orchestration | Minikube |
 
 ---
 
@@ -386,6 +387,12 @@ docker run -p 8000:8000 heart-disease-predictor
 
 ---
 
+# Container Orchestration
+
+This project uses Minikube for creating a virtual cluster and orchestrate the docker contatiner. Deployment.yaml and Service.yaml are used
+for Minikube configuration. Stantard commands are used to load/unload the container+pod on the target vitual nodes. 
+
+
 # CI/CD
 
 GitHub Actions automates the following tasks:
@@ -400,7 +407,6 @@ GitHub Actions automates the following tasks:
 The pipeline executes automatically for:
 
 - Push to `main`
-- Push to `develop`
 - Pull Requests
 
 ---
@@ -543,5 +549,37 @@ Attached are screenshots demonstrating the project's architecture, experiment tr
 ---
 
 <img src="docs/images/Screenshot 2026-07-12 114926.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 125638.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 125829.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 135437.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 140032.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 141309.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 142953.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 143709.png" width="900">
+
+---
+
+<img src="docs/images/Screenshot 2026-07-12 150554.png" width="900">
 
 ---
