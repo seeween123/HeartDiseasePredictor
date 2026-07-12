@@ -27,13 +27,13 @@ Production Deployment:
 import os
 import pandas as pd
 import mlflow
-from data.preprocessing import preprocess_data
+from src.data.preprocessing import preprocess_data
 
 # === MODEL LOADING CONFIGURATION ===
 # IMPORTANT: This path is set during Docker container build
 # In development: uses local MLflow artifacts
 # In production: uses model copied to container at build time
-MODEL_DIR = "/serving/model"
+MODEL_DIR = "serving/model"
 
 try:
     # Load the trained XGBoost model in MLflow pyfunc format
