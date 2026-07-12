@@ -84,3 +84,10 @@ ucimlrepo==0.0.7
 # =========================
 FastAPI
 gradio
+
+# =========================
+# CI/Testing
+# =========================
+pytest
+pytest-cov
+ruff
