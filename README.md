@@ -126,6 +126,8 @@ HeartDiseasePredictor/
 ├── run_pipeline.py
 ├── Dockerfile
 ├── requirements.txt
+├── deployment.yaml
+├── service.yaml
 ├── README.md
 └── LICENSE
 ```
@@ -390,7 +392,7 @@ GitHub Actions automates the following tasks:
 
 - Checkout repository
 - Install dependencies
-- Lint source code
+- Lint source code. Use ruff to find and fix code issues.
 - Execute unit tests
 - Build Docker image
 - Validate application
