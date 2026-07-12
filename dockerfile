@@ -15,13 +15,13 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # Copy MLflow run (artifacts + metadata) to the flat /app/model convenience path
-COPY src/serving/model /app/model
+COPY serving/model app/model
 
 # make "serving" and "app" importable without the "src." prefix
 # ensures logs are shown in real-time (no buffering).
 # lets you import modules using from app... instead of from src.app....
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app/src
+    PYTHONPATH=app/src
 
 # 6. Expose FastAPI port
 EXPOSE 8000
