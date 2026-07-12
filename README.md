@@ -6,6 +6,11 @@ the presence of heart disease using the UCI Heart Disease dataset. An end-to-end
 
 ---
 
+### Video Walkthrough
+Please refer to Youtube video: [link](https://youtu.be/bP0nUIUyE4U)
+
+---
+
 ### Problem solved & benefits
 
 Early identification of patients at risk of cardiovascular disease.
@@ -16,7 +21,7 @@ REST API for inference.
 
 MLflow experiment tracking.
 
-Docker deployment.
+Docker deployment - Docker + MiniKube
 
 FastAPI service.
 
@@ -33,10 +38,10 @@ CI/CD using GitHub Actions.
 - Web UI: Gradio interface mounted at /ui for quick, shareable manual testing.
 - Containerization: Docker image with uvicorn entrypoint (src.app.main:app) listening on port 8000.
 - CI/CD: GitHub Actions builds the image and pushes to Docker Hub. Local or AWS ECS 
-- Orchestration: Local / AWS
+- Orchestration: MiniKube
 - Networking: Local / AWS
 - Security: Local / AWS
-- Observability: Local 
+- Observability: Local / AWS
 
 ## Project Overview
 
@@ -53,8 +58,9 @@ The workflow includes:
 - Model Registry
 - Model serving with FastAPI
 - Docker containerization
+- MiniKube Orchestration
 - GitHub Actions CI/CD
-- Unit testing
+- Lint and Unit testing
 
 ---
 
@@ -68,7 +74,7 @@ The workflow includes:
 - Optuna hyperparameter optimization
 - MLflow experiment tracking and model registry
 - REST API using FastAPI
-- Docker support
+- Docker and MiniKube support
 - GitHub Actions CI pipeline
 - Unit tests with pytest
 
@@ -82,7 +88,7 @@ The workflow includes:
 | Data Processing | Pandas, NumPy |
 | Visualization | Matplotlib, Seaborn |
 | Machine Learning | Scikit-learn |
-| Gradient Boosting | XGBoost, LightGBM |
+| Gradient Boosting | XGBoost |
 | Hyperparameter Tuning | Optuna |
 | Experiment Tracking | MLflow |
 | API | FastAPI |
@@ -105,7 +111,6 @@ HeartDiseasePredictor/
 ├── data/
 │   ├── raw/
 │   ├── processed/
-│   └── external/
 │
 ├── notebooks/
 │   └── EDA.ipynb
@@ -113,12 +118,15 @@ HeartDiseasePredictor/
 ├── serving/
 │   └── model/
 │
+├── scripts/
+│
 ├── src/
+│   ├── app/
 │   ├── data/
 │   ├── features/
 │   ├── models/
 │   ├── utils/
-│   └── pipeline/
+│   └── serving/
 │
 ├── tests/
 │
@@ -130,7 +138,6 @@ HeartDiseasePredictor/
 ├── deployment.yaml
 ├── service.yaml
 ├── README.md
-└── LICENSE
 ```
 
 ---
