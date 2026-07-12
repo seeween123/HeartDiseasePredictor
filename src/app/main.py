@@ -15,17 +15,20 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import gradio as gr
 from src.serving.predict import predict  # Core ML inference logic
+import uvicorn
 
 # Initialize FastAPI application
 app = FastAPI(
     title="Heart Disease Prediction API",
     description="ML API for predicting heart disease in patients based on clinical features. Provides both REST API and Gradio UI.",
-    version="1.0.0"
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
 # === HEALTH CHECK ENDPOINT ===
 # CRITICAL: Required for AWS Application Load Balancer health checks
-@app.get("/")
+@app.get("/health")
 def root():
     """
     Health check endpoint for monitoring and load balancer health checks.
@@ -42,19 +45,19 @@ class PatientData(BaseModel):
     All features match the original dataset structure for consistency.
     """
 
-    age: str
-    sex: str
-    cp: str
-    trestbps: str
-    chol: str
-    fbs: str
-    restecg: str
-    thalach: str
-    exang: str
-    oldpeak: str
-    slope: str
-    ca: str
-    thal: str
+    age: int
+    sex: int
+    cp: int
+    trestbps: int
+    chol: int
+    fbs: int
+    restecg: int
+    thalach: int
+    exang: int
+    oldpeak: float
+    slope: int
+    ca: float
+    thal: float
 
 # === MAIN PREDICTION API ENDPOINT ===
 @app.post("/predict")
@@ -73,7 +76,7 @@ def get_prediction(data: PatientData):
     """
     try:
         # Convert Pydantic model to dict and call inference pipeline
-        result = predict(data.dict())
+        result = predict(data.model_dump())
         return {"prediction": result}
     except Exception as e:
         # Return error details for debugging (consider logging in production)
@@ -123,19 +126,19 @@ def gradio_interface(
 demo = gr.Interface(
     fn=gradio_interface,
     inputs=[
-        gr.Number(label="Age (years)", value=20, minimum=0, maximum=100),
-        gr.Dropdown(["0", "1"], label="sex", value="0"),
+        gr.Number(label="age", value=65, minimum=0, maximum=100),
+        gr.Dropdown(["0", "1"], label="sex", value="1"),
         gr.Dropdown(["1", "2", "3", "4"], label="cp", value="1"),
-        gr.Number(label="trestbps", value=100, minimum=50, maximum=300),
-        gr.Number(label="chol", value=100, minimum=50, maximum=700),
-        gr.Dropdown(["0", "1"], label="fbs", value="0"),
-        gr.Dropdown(["0", "1", "2"], label="restecg", value="0"),
-        gr.Number(label="thalach", value=100, minimum=10, maximum=250),
+        gr.Number(label="trestbps", value=145, minimum=50, maximum=300),
+        gr.Number(label="chol", value=233, minimum=50, maximum=700),
+        gr.Dropdown(["0", "1"], label="fbs", value="1"),
+        gr.Dropdown(["0", "1", "2"], label="restecg", value="2"),
+        gr.Number(label="thalach", value=150, minimum=10, maximum=250),
         gr.Dropdown(["0", "1"], label="exang", value="0"),
-        gr.Number(label="oldpeak", value=5, minimum=0, maximum=10),
-        gr.Dropdown(["1", "2", "3"], label="slope", value="1"),
+        gr.Number(label="oldpeak", value=2.3, minimum=0, maximum=10),
+        gr.Dropdown(["1", "2", "3"], label="slope", value="3"),
         gr.Dropdown(["0", "1", "2", "3"], label="ca", value="0"),
-        gr.Dropdown(["3", "6", "7"], label="thal", value="3"),
+        gr.Dropdown(["3", "6", "7"], label="thal", value="6"),
     ],
     outputs=gr.Textbox(label="Heart Disease Prediction", lines=2),
     title="🔮 Heart Disease Predictor",
@@ -149,7 +152,7 @@ demo = gr.Interface(
     💡 **Tip**: Older patients with higher cholesterol levels and certain chest pain types 
     tend to have a higher risk of heart disease.
     """,
-       theme=gr.themes.Soft()  # Professional appearance
+       #theme=gr.themes.Soft()  # Professional appearance
 )
 
 # === MOUNT GRADIO UI INTO FASTAPI ===
@@ -160,3 +163,10 @@ app = gr.mount_gradio_app(
     demo,          # Gradio interface
     path="/ui"     # URL path where Gradio will be accessible
 )
+
+if __name__ == "__main__":
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000,
+    )
