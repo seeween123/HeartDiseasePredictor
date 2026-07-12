@@ -41,3 +41,27 @@ CI/CD using GitHub Actions.
 - Push to main → GitHub Actions builds the Docker image and pushes it to Docker Hub.
 - Integrate AWS ECS service is updated (manually or via the workflow) to force a new deployment.
 - Users call POST /predict or open the Gradio UI at /ui.
+
+### Environment Setup
+
+Create and activate a Python virtual environment:
+
+```powershell
+# Create virtual environment
+Python3.11 -m venv .venv
+
+# Activate virtual environment (Windows PowerShell)
+.\.venv\Scripts\Activate.ps1
+
+# Upgrade package management tools
+python -m pip install --upgrade pip setuptools wheel
+
+# Install project dependencies
+uv pip install -r requirements.txt
+```
+
+> **Note:** Ensure that `uv` is installed before running the last command. If not, install it using:
+>
+> ```powershell
+> pip install uv
+> ```

@@ -1,4 +1,4 @@
-artifact_path: file:///C:/Users/naras/Work/WILP/MLOPS/Assignment1/HeartDiseasePredictor/mlruns/608454654416338805/models/m-69a2fd99642a49c1a76c028d4e156a5e/artifacts
+artifact_path: file:///C:/Users/naras/Work/WILP/MLOPS/Assignment1/HDP_MLOPs/mlruns/914657335263639488/models/m-dfc859b7897a4ee0873417cdfb0981a6/artifacts
 flavors:
   python_function:
     data: model.xgb
@@ -14,9 +14,9 @@ flavors:
     model_format: xgb
     xgb_version: 3.0.2
 mlflow_version: 3.1.4
-model_id: m-69a2fd99642a49c1a76c028d4e156a5e
-model_size_bytes: 383320
-model_uuid: m-69a2fd99642a49c1a76c028d4e156a5e
+model_id: m-dfc859b7897a4ee0873417cdfb0981a6
+model_size_bytes: 516124
+model_uuid: m-dfc859b7897a4ee0873417cdfb0981a6
 prompts: null
-run_id: 27c862fc6c024bceb2228303d19ec0bc
-utc_time_created: '2026-07-11 02:40:09.181360'
+run_id: 7c50457ed3184e96a2653d98df906fd6
+utc_time_created: '2026-07-12 00:46:16.804061'
