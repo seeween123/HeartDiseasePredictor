@@ -1,9 +1,7 @@
 import mlflow
 import optuna
 from xgboost import XGBClassifier
-from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
-import pandas as pd
 
 from sklearn.metrics import (
     recall_score,
@@ -11,8 +9,8 @@ from sklearn.metrics import (
     f1_score,
     accuracy_score,
     roc_auc_score,
-    classification_report
 )
+
 
 def tune_model(df, target_col):
     """
@@ -44,15 +42,11 @@ def tune_model(df, target_col):
             "random_state": 42,
             "n_jobs": -1,
             "eval_metric": "logloss",
-            "scale_pos_weight": (y_train == 0).sum() / (y_train == 1).sum()
+            "scale_pos_weight": (y_train == 0).sum() / (y_train == 1).sum(),
         }
 
         # Nested MLflow run for every Optuna trial
-        with mlflow.start_run(
-            run_name=f"Trial_{trial.number}",
-            nested=True
-        ):
-
+        with mlflow.start_run(run_name=f"Trial_{trial.number}", nested=True):
             mlflow.log_params(params)
 
             model = XGBClassifier(**params)
@@ -80,13 +74,9 @@ def tune_model(df, target_col):
     # Parent MLflow Run
     # -------------------------------------------------------------------
     with mlflow.start_run(run_name="XGBoost_Tuning"):
-
         study = optuna.create_study(direction="maximize")
 
-        study.optimize(
-            objective,
-            n_trials=30
-        )
+        study.optimize(objective, n_trials=30)
 
         print("\nBest Parameters")
         print(study.best_params)
@@ -95,4 +85,3 @@ def tune_model(df, target_col):
         print(study.best_value)
 
         return study.best_params
-    
